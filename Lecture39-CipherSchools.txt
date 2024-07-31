@@ -1,0 +1,43 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Person {
+private:
+    string name;
+    int age;
+
+public:
+    // Constructor
+    Person(string n, int a) {
+        name = n;
+        age = a;
+    }
+
+    // Getter function
+    string getName() {
+        return name;
+    }
+
+    // Setter function
+    void setAge(int a) {
+        age = a;
+    }
+
+    // Member function
+    void introduce() {
+        cout << "Hello, my name is " << name << " and I am " << age << " years old." << endl;
+    }
+};
+
+int main() {
+    // Create a Person object
+    Person person1("John Doe", 30);
+
+    // Access member functions
+    cout << "Name: " << person1.getName() << endl;
+    person1.setAge(35);
+    person1.introduce();
+
+    return 0;
+}

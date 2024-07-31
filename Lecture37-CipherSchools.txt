@@ -1,0 +1,27 @@
+//1 
+
+#include<iostream>
+using namespace std;
+int main()
+{
+    int i, j, min_indx, data[100], n, t;
+    cin>>n;
+    for(i=0;i<n;i++)
+    {
+        cin>>data[i];
+    }
+    for(i=0;i<n-1;i++)
+    {
+        min_indx = i;
+        for(j = i+1;j<n;j++)
+        {
+            if(data[i] < data[min_indx])
+            {
+                min_indx = j;
+            }
+        }
+        t = data[i];
+        data[i] = data[min_indx];
+        data[min_indx] = t;
+    }
+}

@@ -1,0 +1,147 @@
+#include <iostream>
+using namespace std;
+
+// Definition of a binary tree node
+struct TreeNode {
+    int key;
+    TreeNode *left, *right;
+    
+    TreeNode(int val) : key(val), left(NULL), right(NULL) {}
+};
+
+// Function to search for a value in the BST
+TreeNode* search(TreeNode* root, int key) {
+    if (root == NULL || root->key == key)
+        return root;
+
+    if (key < root->key)
+        return search(root->left, key);
+
+    return search(root->right, key);
+}
+
+// Function to insert a new key in the BST
+TreeNode* insert(TreeNode* node, int key) {
+    if (node == NULL)
+        return new TreeNode(key);
+
+    if (key < node->key)
+        node->left = insert(node->left, key);
+    else if (key > node->key)
+        node->right = insert(node->right, key);
+
+    return node;
+}
+
+// Function to find the node with the minimum key value
+TreeNode* findMin(TreeNode* node) {
+    TreeNode* current = node;
+    while (current && current->left != NULL)
+        current = current->left;
+    return current;
+}
+
+// Function to delete a node from the BST
+TreeNode* deleteNode(TreeNode* root, int key) {
+    if (root == NULL)
+        return root;
+
+    if (key < root->key)
+        root->left = deleteNode(root->left, key);
+    else if (key > root->key)
+        root->right = deleteNode(root->right, key);
+    else {
+        // Node with only one child or no child
+        if (root->left == NULL) {
+            TreeNode* temp = root->right;
+            delete root;
+            return temp;
+        } else if (root->right == NULL) {
+            TreeNode* temp = root->left;
+            delete root;
+            return temp;
+        }
+
+        // Node with two children
+        TreeNode* temp = findMin(root->right);
+        root->key = temp->key;
+        root->right = deleteNode(root->right, temp->key);
+    }
+    return root;
+}
+
+// Function to print the BST in inorder traversal
+void inorder(TreeNode* root) {
+    if (root != NULL) {
+        inorder(root->left);
+        cout << root->key << " ";
+        inorder(root->right);
+    }
+}
+
+// Function to print the BST in preorder traversal
+void preorder(TreeNode* root) {
+    if (root != NULL) {
+        cout << root->key << " ";
+        preorder(root->left);
+        preorder(root->right);
+    }
+}
+
+// Function to print the BST in postorder traversal
+void postorder(TreeNode* root) {
+    if (root != NULL) {
+        postorder(root->left);
+        postorder(root->right);
+        cout << root->key << " ";
+    }
+}
+
+int main() {
+    TreeNode* root = NULL;
+    root = insert(root, 50);
+    insert(root, 30);
+    insert(root, 20);
+    insert(root, 40);
+    insert(root, 70);
+    insert(root, 60);
+    insert(root, 80);
+
+    cout << "Inorder traversal of the BST: ";
+    inorder(root);
+    cout << endl;
+
+    cout << "Preorder traversal of the BST: ";
+    preorder(root);
+    cout << endl;
+
+    cout << "Postorder traversal of the BST: ";
+    postorder(root);
+    cout << endl;
+
+    cout << "Delete 20\n";
+    root = deleteNode(root, 20);
+    cout << "Inorder traversal after deleting 20: ";
+    inorder(root);
+    cout << endl;
+
+    cout << "Delete 30\n";
+    root = deleteNode(root, 30);
+    cout << "Inorder traversal after deleting 30: ";
+    inorder(root);
+    cout << endl;
+
+    cout << "Delete 50\n";
+    root = deleteNode(root, 50);
+    cout << "Inorder traversal after deleting 50: ";
+    inorder(root);
+    cout << endl;
+
+    TreeNode* result = search(root, 70);
+    if (result != NULL)
+        cout << "Element 70 found in the BST\n";
+    else
+        cout << "Element 70 not found in the BST\n";
+
+    return 0;
+}
